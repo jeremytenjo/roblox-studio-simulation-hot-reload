@@ -5,7 +5,7 @@
   "tasks": [
     {
       "label": "watch",
-      "dependsOn": ["npm: watch:tsc", "npm: dev"],
+      "dependsOn": ["npm: dev"],
       "presentation": {
         "reveal": "never"
       },
@@ -25,34 +25,6 @@
         "group": "watch",
         "reveal": "never"
       }
-    },
-    {
-      "type": "npm",
-      "script": "watch:tsc",
-      "group": "build",
-      "problemMatcher": "$tsc-watch",
-      "isBackground": true,
-      "label": "npm: watch:tsc",
-      "presentation": {
-        "group": "watch",
-        "reveal": "never"
-      }
-    },
-    {
-      "type": "npm",
-      "script": "watch-tests",
-      "problemMatcher": "$tsc-watch",
-      "isBackground": true,
-      "presentation": {
-        "reveal": "never",
-        "group": "watchers"
-      },
-      "group": "build"
-    },
-    {
-      "label": "tasks: watch-tests",
-      "dependsOn": ["npm: watch", "npm: watch-tests"],
-      "problemMatcher": []
     }
   ]
 }
