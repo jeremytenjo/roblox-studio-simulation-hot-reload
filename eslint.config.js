@@ -7,9 +7,8 @@ import importPlugin from 'eslint-plugin-import'
 import prettierConfig from './.prettierrc.js'
 
 export default defineConfig([
-  eslintPluginPrettierRecommended,
-
   // Global settings
+  eslintPluginPrettierRecommended,
   {
     ignores: ['/out'],
   },
