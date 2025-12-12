@@ -1,4 +1,4 @@
-# Reload Roblox Studio Simulator
+# Restart Roblox Studio Simulator
 
 ![Logo](assets/images/logo.png)
 
