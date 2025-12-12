@@ -1,6 +1,8 @@
 import * as vscode from 'vscode';
 import { WebSocketServer, WebSocket } from 'ws';
 
+const pacakgeName = '[roblox-studio-simulation-hot-reload]';
+
 type RunOrRestartMessage = {
   type: 'runOrRestart';
   source: string;
@@ -26,16 +28,14 @@ export function activate(context: vscode.ExtensionContext) {
   const port = 3010;
 
   wss = new WebSocketServer({ port }, () => {
-    console.log(
-      `[roblox-autotest-ws] WebSocket listening on ws://localhost:${port}`
-    );
+    console.log(`${pacakgeName} WebSocket listening on ws://localhost:${port}`);
   });
 
   wss.on('connection', (socket: WebSocket) => {
-    console.log('[roblox-autotest-ws] client connected');
+    console.log(`${pacakgeName} client connected`);
 
     socket.on('close', () => {
-      console.log('[roblox-autotest-ws] client disconnected');
+      console.log(`${pacakgeName} client disconnected`);
     });
 
     socket.on('message', (data) => {
@@ -72,7 +72,7 @@ export function activate(context: vscode.ExtensionContext) {
 
   // NEW: Trigger on file save
   const onSaveDisposable = vscode.workspace.onDidSaveTextDocument((doc) => {
-    console.log(`[roblox-autotest-ws] file saved: ${doc.fileName}`);
+    console.log(`${pacakgeName} file saved: ${doc.fileName}`);
 
     // Optional: filter by file pattern (e.g., only TypeScript/Lua files)
     if (doc.fileName.match(/\.(ts|tsx|js|jsx|lua|luau)$/)) {
@@ -82,9 +82,7 @@ export function activate(context: vscode.ExtensionContext) {
         timestamp: Date.now(),
       };
       broadcast(msg);
-      console.log(
-        `[roblox-autotest-ws] triggered by file save: ${doc.fileName}`
-      );
+      console.log(`${pacakgeName} triggered by file save: ${doc.fileName}`);
     }
   });
 
