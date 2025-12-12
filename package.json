@@ -1,5 +1,5 @@
 {
-  "name": "roblox-studio-simulation-hot-reload",
+  "name": "reload-roblox-studio-simulator",
   "description": "VS Code extension for hot reloading Roblox Studio simulations and running tests",
   "version": "0.0.1",
   "publisher": "tenjojeremy",

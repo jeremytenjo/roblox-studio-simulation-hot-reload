@@ -1,7 +1,7 @@
 import * as vscode from 'vscode'
 import { WebSocketServer, WebSocket } from 'ws'
 
-const pacakgeName = '[roblox-studio-simulation-hot-reload]'
+const pacakgeName = '[reload-roblox-studio-simulator]'
 
 type RunOrRestartMessage = {
   type: 'runOrRestart'
