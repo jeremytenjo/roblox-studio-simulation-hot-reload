@@ -1,7 +1,7 @@
 import * as vscode from 'vscode'
 import { WebSocketServer, WebSocket } from 'ws'
 
-const pacakgeName = '[reload-roblox-studio-simulator]'
+const pacakgeName = '[restart-roblox-studio-simulator]'
 
 type RestartMessage = {
   type: 'restart'
@@ -56,7 +56,7 @@ export function activate(context: vscode.ExtensionContext) {
   })
 
   const cmd = vscode.commands.registerCommand(
-    'reloadRobloxStudioSimulator.restart',
+    'restartRobloxStudioSimulator.restart',
     () => {
       const msg: RestartMessage = {
         type: 'restart',
@@ -73,7 +73,7 @@ export function activate(context: vscode.ExtensionContext) {
   // NEW: Trigger on file save
   const onSaveDisposable = vscode.workspace.onDidSaveTextDocument((doc) => {
     const disableAutoReload = vscode.workspace
-      .getConfiguration('reloadRobloxStudioSimulator')
+      .getConfiguration('restartRobloxStudioSimulator')
       .get('disableAutoReload', false)
 
     if (disableAutoReload) {
