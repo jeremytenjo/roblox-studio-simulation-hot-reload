@@ -1,7 +1,7 @@
 {
   "name": "reload-roblox-studio-simulator",
   "displayName": "Reload Roblox Studio Simulator",
-  "description": "VS Code extension for hot reloading Roblox Studio simulations and running tests",
+  "description": "VS Code extension for reloading the Roblox Studio simulations",
   "keywords": [
     "roblox",
     "vscode",
