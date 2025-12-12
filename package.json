@@ -12,6 +12,7 @@
   ],
   "version": "0.0.5",
   "publisher": "tenjojeremy",
+  "license": "MIT",
   "icon": "assets/images/logo.png",
   "repository": {
     "url": "https://github.com/jeremytenjo/reload-roblox-studio-simulator"
