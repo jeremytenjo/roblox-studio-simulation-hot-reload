@@ -340,9 +340,10 @@ end
 
 local toolbar = plugin:CreateToolbar("Restart Roblox Studio Simulator Bridge")
 
-local connectButton = toolbar:CreateButton("Connect", "Connect to VS Code extension", "126561959012757")
+local connectButton = toolbar:CreateButton("Connect", "Connect to VS Code extension", "rbxassetid://126561959012757")
 
-local disconnectButton = toolbar:CreateButton("Disconnect", "Disconnect from VS Code extension", "123998024261090")
+local disconnectButton =
+	toolbar:CreateButton("Disconnect", "Disconnect from VS Code extension", "rbxassetid://123998024261090")
 
 connectButton.Click:Connect(function()
 	connectWS()
