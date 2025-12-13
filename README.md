@@ -6,9 +6,8 @@ A VS Code extension that enables hot-reload functionality for Roblox game develo
 
 ## Features
 
-- **WebSocket Server Integration**: Runs a WebSocket server (port 3010) for real-time communication with Roblox clients
-- **Manual Trigger**: Press `F2` to trigger a "run or restart" command for your Roblox simulation
 - **Auto Reload on Save**: Automatically triggers simulation restart when you save TypeScript, JavaScript, or Lua files
+- **Manual Trigger**: Press `F2` to trigger a "run or restart" command for your Roblox simulation
 - **File Type Filtering**: Intelligently filters supported file types (`.ts`, `.tsx`, `.js`, `.jsx`, `.lua`, `.luau`)
 
 ## Installation
