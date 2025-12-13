@@ -76,7 +76,7 @@ export function activate(context: vscode.ExtensionContext) {
     100,
   )
   statusBarItem.command = 'restartRobloxStudioSimulator.restart'
-  statusBarItem.text = '$(refresh) Restart Roblox Simulator'
+  statusBarItem.text = '$(refresh) Restart Roblox Studio Simulator'
   statusBarItem.tooltip = 'Restart Roblox Studio Simulator'
   statusBarItem.show()
   context.subscriptions.push(statusBarItem)
