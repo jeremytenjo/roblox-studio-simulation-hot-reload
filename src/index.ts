@@ -40,7 +40,7 @@ function updateWebSocketStatusBar() {
   }
 }
 
-function startWebSocket() {
+function startWebSocket(p: { dontShowInformationMessage?: boolean } = {}) {
   if (wss) {
     vscode.window.showWarningMessage(
       'Restart Roblox Studio Simuluator: WebSocket is already running',
@@ -50,7 +50,9 @@ function startWebSocket() {
 
   wss = new WebSocketServer({ port }, () => {
     console.log(`${pacakgeName} WebSocket listening on ws://localhost:${port}`)
-    vscode.window.showInformationMessage('WebSocket started on ws://localhost:3010')
+    if (!p.dontShowInformationMessage) {
+      vscode.window.showInformationMessage('Restart Roblox Studio Simuluator is active')
+    }
     updateWebSocketStatusBar()
   })
 
@@ -95,7 +97,9 @@ function stopWebSocket() {
 
 export function activate(context: vscode.ExtensionContext) {
   // Start WebSocket on activation
-  startWebSocket()
+  startWebSocket({
+    dontShowInformationMessage: true,
+  })
 
   // Register start command
   const startCmd = vscode.commands.registerCommand(
