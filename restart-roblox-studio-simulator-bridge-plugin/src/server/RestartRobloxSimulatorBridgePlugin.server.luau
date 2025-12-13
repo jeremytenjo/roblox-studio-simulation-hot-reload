@@ -340,9 +340,9 @@ end
 
 local toolbar = plugin:CreateToolbar("Auto Restart Play (WS)")
 
-local connectButton = toolbar:CreateButton("Connect", "Connect to VS Code extension", "")
+local connectButton = toolbar:CreateButton("Connect", "Connect to VS Code extension", "126561959012757")
 
-local disconnectButton = toolbar:CreateButton("Disconnect", "Disconnect from VS Code extension", "")
+local disconnectButton = toolbar:CreateButton("Disconnect", "Disconnect from VS Code extension", "123998024261090")
 
 connectButton.Click:Connect(function()
 	connectWS()
