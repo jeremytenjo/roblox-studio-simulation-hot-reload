@@ -349,16 +349,16 @@ local function showNotification(message, duration)
 	notificationFrame.Name = "NotificationFrame"
 	notificationFrame.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
 	notificationFrame.BorderSizePixel = 0
-	notificationFrame.Size = UDim2.new(0.35, 0, 0.08, 0)
-	notificationFrame.Position = UDim2.new(0.325, 0, 0.02, 0)
+	notificationFrame.Size = UDim2.new(0.4, 0, 0.06, 0)
+	notificationFrame.Position = UDim2.new(0.3, 0, 0.02, 0)
 	notificationFrame.Parent = screenGui
 
 	local iconLabel = Instance.new("ImageLabel")
 	iconLabel.Name = "NotificationIcon"
 	iconLabel.Image = "rbxassetid://125030218101854"
 	iconLabel.BackgroundTransparency = 1
-	iconLabel.Size = UDim2.new(0, 24, 0, 24)
-	iconLabel.Position = UDim2.new(0, 8, 0.5, -12)
+	iconLabel.Size = UDim2.new(0, 20, 0, 20)
+	iconLabel.Position = UDim2.new(0, 10, 0.5, -10)
 	iconLabel.Parent = notificationFrame
 
 	local textLabel = Instance.new("TextLabel")
@@ -366,11 +366,12 @@ local function showNotification(message, duration)
 	textLabel.Text = message
 	textLabel.TextScaled = false
 	textLabel.TextSize = 15
+	textLabel.TextXAlignment = Enum.TextXAlignment.Left
 	textLabel.BackgroundTransparency = 1
 	textLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
 	textLabel.BorderSizePixel = 0
-	textLabel.Size = UDim2.new(1, -40, 1, 0)
-	textLabel.Position = UDim2.new(0, 40, 0, 0)
+	textLabel.Size = UDim2.new(1, -50, 1, 0)
+	textLabel.Position = UDim2.new(0, 38, 0, 0)
 	textLabel.Parent = notificationFrame
 
 	task.wait(duration)
