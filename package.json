@@ -47,17 +47,17 @@
     "commands": [
       {
         "command": "restartRobloxStudioSimulator.restart",
-        "title": "Roblox Studio: Restart Simulator",
+        "title": "Restart Roblox Studio Simuluator",
         "icon": "$(refresh)"
       },
       {
         "command": "restartRobloxStudioSimulator.stopWebSocket",
-        "title": "Roblox Studio: Stop",
+        "title": "Shutdown Restart Roblox Studio Simuluator extension",
         "icon": "$(debug-stop)"
       },
       {
         "command": "restartRobloxStudioSimulator.startWebSocket",
-        "title": "Roblox Studio: Start",
+        "title": "Activate Restart Roblox Studio Simuluator extension",
         "icon": "$(debug-start)"
       }
     ],
