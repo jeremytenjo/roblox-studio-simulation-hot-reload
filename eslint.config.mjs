@@ -10,7 +10,7 @@ export default defineConfig([
   // Global settings
   eslintPluginPrettierRecommended,
   {
-    ignores: ['/out'],
+    ignores: ['/dist'],
   },
 
   // eslint config
