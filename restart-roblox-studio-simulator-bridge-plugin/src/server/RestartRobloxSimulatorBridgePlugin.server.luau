@@ -345,16 +345,32 @@ local function showNotification(message, duration)
 	screenGui.ResetOnSpawn = false
 	screenGui.Parent = game:GetService("CoreGui")
 
+	local notificationFrame = Instance.new("Frame")
+	notificationFrame.Name = "NotificationFrame"
+	notificationFrame.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
+	notificationFrame.BorderSizePixel = 0
+	notificationFrame.Size = UDim2.new(0.35, 0, 0.08, 0)
+	notificationFrame.Position = UDim2.new(0.325, 0, 0.02, 0)
+	notificationFrame.Parent = screenGui
+
+	local iconLabel = Instance.new("ImageLabel")
+	iconLabel.Name = "NotificationIcon"
+	iconLabel.Image = "rbxassetid://125030218101854"
+	iconLabel.BackgroundTransparency = 1
+	iconLabel.Size = UDim2.new(0, 24, 0, 24)
+	iconLabel.Position = UDim2.new(0, 8, 0.5, -12)
+	iconLabel.Parent = notificationFrame
+
 	local textLabel = Instance.new("TextLabel")
 	textLabel.Name = "NotificationLabel"
 	textLabel.Text = message
 	textLabel.TextScaled = true
-	textLabel.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
+	textLabel.BackgroundTransparency = 1
 	textLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
 	textLabel.BorderSizePixel = 0
-	textLabel.Size = UDim2.new(0.3, 0, 0.08, 0)
-	textLabel.Position = UDim2.new(0.35, 0, 0.02, 0)
-	textLabel.Parent = screenGui
+	textLabel.Size = UDim2.new(1, -40, 1, 0)
+	textLabel.Position = UDim2.new(0, 40, 0, 0)
+	textLabel.Parent = notificationFrame
 
 	task.wait(duration)
 	screenGui:Destroy()
@@ -368,12 +384,12 @@ local disconnectButton =
 	toolbar:CreateButton("Disconnect", "Disconnect from VS Code extension", "rbxassetid://123998024261090")
 
 connectButton.Click:Connect(function()
-	showNotification("Connecting to session...", 2)
+	showNotification("Restart Roblox Studio Simulator: Active", 2)
 	connectWS()
 end)
 
 disconnectButton.Click:Connect(function()
-	showNotification("Disconnecting from session...", 2)
+	showNotification("Restart Roblox Studio Simulator: Stopped", 2)
 	disconnectWS()
 end)
 
