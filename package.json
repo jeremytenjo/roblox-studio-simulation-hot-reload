@@ -44,7 +44,8 @@
     "commands": [
       {
         "command": "restartRobloxStudioSimulator.restart",
-        "title": "Roblox Studio: Restart Simulator"
+        "title": "Roblox Studio: Restart Simulator",
+        "icon": "$(refresh)"
       }
     ],
     "keybindings": [
@@ -54,6 +55,14 @@
         "when": "true"
       }
     ],
+    "menus": {
+      "editor/title": [
+        {
+          "command": "restartRobloxStudioSimulator.restart",
+          "group": "navigation"
+        }
+      ]
+    },
     "configuration": {
       "title": "Roblox Studio Simulator",
       "properties": {
