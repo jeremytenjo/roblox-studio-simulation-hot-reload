@@ -1,5 +1,5 @@
 {
-  "name": "reload-roblox-studio-simulator-bridge-plugin",
+  "name": "restart-roblox-studio-simulator-bridge-plugin",
   "scripts": {
     "dev:roblox:plugin": "rojo serve",
     "build:roblox:plugin": "rojo build -o RestartRobloxSimulatorBridgePlugin.rbxm"

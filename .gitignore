@@ -6,7 +6,7 @@ node_modules
 
 
 # Project place file
-/reload-roblox-studio-simulator-bridge-plugin.rbxlx
+/restart-roblox-studio-simulator-bridge-plugin.rbxlx
 
 # Roblox Studio lock files
 /*.rbxlx.lock
