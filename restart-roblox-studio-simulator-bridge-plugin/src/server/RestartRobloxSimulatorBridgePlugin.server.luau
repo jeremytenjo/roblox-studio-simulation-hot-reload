@@ -338,6 +338,28 @@ end
 -- Plugin UI: ONLY connect/disconnect buttons + PluginAction for keybind
 ----------------------------------------------------------------------
 
+local function showNotification(message, duration)
+	duration = duration or 2
+	local screenGui = Instance.new("ScreenGui")
+	screenGui.Name = "NotificationGui"
+	screenGui.ResetOnSpawn = false
+	screenGui.Parent = game:GetService("CoreGui")
+
+	local textLabel = Instance.new("TextLabel")
+	textLabel.Name = "NotificationLabel"
+	textLabel.Text = message
+	textLabel.TextScaled = true
+	textLabel.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
+	textLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+	textLabel.BorderSizePixel = 0
+	textLabel.Size = UDim2.new(0.3, 0, 0.08, 0)
+	textLabel.Position = UDim2.new(0.35, 0, 0.02, 0)
+	textLabel.Parent = screenGui
+
+	task.wait(duration)
+	screenGui:Destroy()
+end
+
 local toolbar = plugin:CreateToolbar("Restart Roblox Studio Simulator Bridge")
 
 local connectButton = toolbar:CreateButton("Connect", "Connect to VS Code extension", "rbxassetid://126561959012757")
@@ -346,10 +368,12 @@ local disconnectButton =
 	toolbar:CreateButton("Disconnect", "Disconnect from VS Code extension", "rbxassetid://123998024261090")
 
 connectButton.Click:Connect(function()
+	showNotification("Connecting to session...", 2)
 	connectWS()
 end)
 
 disconnectButton.Click:Connect(function()
+	showNotification("Disconnecting from session...", 2)
 	disconnectWS()
 end)
 
