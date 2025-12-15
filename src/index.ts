@@ -80,6 +80,7 @@ function startWebSocket(p: { dontShowInformationMessage?: boolean } = {}) {
 
     socket.on('message', (data) => {
       console.log(`${pacakgeName} received message:`, data.toString())
+
       try {
         const parsed = JSON.parse(data.toString())
         if (parsed && parsed.type === 'restart') {
