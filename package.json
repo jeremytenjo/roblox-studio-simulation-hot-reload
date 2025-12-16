@@ -74,7 +74,7 @@
         "restartRobloxStudioSimulator.websocketPort": {
           "type": "number",
           "default": 0,
-          "description": "Make sure this port matches the port set in the Roblox Studio simulator bridge plugin for your project."
+          "description": "(WORKSPACE SETTINGS ONLY, keep USER settings at 0 to revent overriding all vscode projects) Make sure this port matches the port set in the Roblox Studio simulator bridge plugin for your project."
         },
         "restartRobloxStudioSimulator.disableAutoReload": {
           "type": "boolean",

@@ -57,7 +57,7 @@ The extension requires an explicit port configuration. Each VS Code instance sho
 
 #### In VS Code
 
-Add the WebSocket port to your workspace settings (`.vscode/settings.json`):
+Add the WebSocket port to your workspace settings (Keep USER settings at 0) (`.vscode/settings.json`):
 
 ```json
 {
