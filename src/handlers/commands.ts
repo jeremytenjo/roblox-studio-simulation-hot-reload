@@ -53,7 +53,9 @@ export function registerRestartCommand(context: vscode.ExtensionContext) {
         timestamp: Date.now(),
       }
       broadcast(msg)
-      vscode.window.showInformationMessage('Requested Roblox Studio Simulator Restart')
+      vscode.window.showInformationMessage(
+        `Requested Roblox Studio Simulator Restart (Port: ${port})`,
+      )
     },
   )
   context.subscriptions.push(restartCmd)
