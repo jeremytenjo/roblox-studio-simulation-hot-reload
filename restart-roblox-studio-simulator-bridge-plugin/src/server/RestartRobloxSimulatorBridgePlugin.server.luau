@@ -612,9 +612,9 @@ end
 
 local toolbar = plugin:CreateToolbar("Restart Roblox Studio Simulator Bridge")
 
-local configButton = toolbar:CreateButton("RRSB", "Configure WebSocket port", "rbxassetid://119133411556984")
+local actionButton = toolbar:CreateButton("RRSB", "Configure WebSocket port", "rbxassetid://126804431435348")
 
-configButton.Click:Connect(function()
+actionButton.Click:Connect(function()
 	showConfigWidget()
 end)
 
