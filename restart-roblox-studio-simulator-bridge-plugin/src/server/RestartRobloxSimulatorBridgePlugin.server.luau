@@ -580,10 +580,8 @@ local function createConfigWidget()
 			statusLabel.Text = "✓ Connected to Port: " .. tostring(WS_PORT)
 			statusLabel.TextColor3 = Color3.fromRGB(100, 200, 100)
 			statusLabel.Visible = true
-			disconnectButton.Enabled = true
 
 			task.wait(1)
-			widget.Enabled = false
 		end
 		-- If connection failed, error notification is already shown by connectWS()
 	end)
