@@ -18,24 +18,13 @@ local StarterPlayer = game:GetService("StarterPlayer")
 local HttpService = game:GetService("HttpService")
 
 local HARNESS_VERSION = "3"
-local PLUGIN_CONFIG_KEY = "RestartRobloxStudioSimulatorPluginPort"
 local PROJECT_CONFIG_KEY = "RestartRobloxStudioSimulatorProjectPort"
 
--- Load port from project attributes first (per-project), then from persistent plugin storage (global fallback)
+-- Load port from project attributes (per-project only)
 local WS_PORT
-
--- Try to load from project attributes
 local projectPort = game:GetAttribute(PROJECT_CONFIG_KEY)
 if projectPort then
 	WS_PORT = tonumber(projectPort)
-else
-	-- Fall back to plugin settings
-	local success, port = pcall(function()
-		return tonumber(plugin:GetSetting(PLUGIN_CONFIG_KEY))
-	end)
-	if success and port then
-		WS_PORT = port
-	end
 end
 
 local WS_URL = WS_PORT and ("ws://localhost:" .. tostring(WS_PORT)) or nil
