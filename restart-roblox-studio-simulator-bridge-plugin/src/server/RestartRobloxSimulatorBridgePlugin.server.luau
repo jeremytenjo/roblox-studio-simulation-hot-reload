@@ -350,37 +350,37 @@ local function sendRestart(source)
 end
 
 ----------------------------------------------------------------------
--- Configuration UI
+-- Configuration Widget
 ----------------------------------------------------------------------
 
-local configWindow = nil
+local configWidget = nil
 
-local function createConfigWindow()
-	local window = Instance.new("ScreenGui")
-	window.Name = "RestartRobloxStudioSimulatorConfig"
-	window.ResetOnSpawn = false
-	window.DisplayOrder = 999999
+local function createConfigWidget()
+	local widgetInfo = DockWidgetPluginGuiInfo.new(Enum.InitialDockState.Float, true, false, 350, 220, 300, 200)
+
+	local widget = plugin:CreateDockWidgetPluginGui("RestartRobloxStudioSimulatorSettings", widgetInfo)
+	widget.Title = "Simulator Settings"
 
 	-- Main frame
 	local mainFrame = Instance.new("Frame")
 	mainFrame.Name = "MainFrame"
 	mainFrame.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
-	mainFrame.BorderSizePixel = 1
-	mainFrame.BorderColor3 = Color3.fromRGB(60, 60, 60)
-	mainFrame.Size = UDim2.new(0, 350, 0, 180)
-	mainFrame.Position = UDim2.new(0.5, -175, 0.5, -90)
-	mainFrame.Parent = window
+	mainFrame.BorderSizePixel = 0
+	mainFrame.Size = UDim2.new(1, 0, 1, 0)
+	mainFrame.Parent = widget
 
-	-- Title
-	local titleLabel = Instance.new("TextLabel")
-	titleLabel.Name = "Title"
-	titleLabel.Text = "Settings"
-	titleLabel.TextSize = 16
-	titleLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
-	titleLabel.BackgroundColor3 = Color3.fromRGB(55, 55, 55)
-	titleLabel.BorderSizePixel = 0
-	titleLabel.Size = UDim2.new(1, 0, 0, 30)
-	titleLabel.Parent = mainFrame
+	local padding = Instance.new("UIPadding")
+	padding.PaddingLeft = UDim.new(0, 15)
+	padding.PaddingRight = UDim.new(0, 15)
+	padding.PaddingTop = UDim.new(0, 15)
+	padding.PaddingBottom = UDim.new(0, 15)
+	padding.Parent = mainFrame
+
+	local layout = Instance.new("UIListLayout")
+	layout.Padding = UDim.new(0, 10)
+	layout.FillDirection = Enum.FillDirection.Vertical
+	layout.SortOrder = Enum.SortOrder.LayoutOrder
+	layout.Parent = mainFrame
 
 	-- Port label
 	local portLabel = Instance.new("TextLabel")
@@ -390,23 +390,38 @@ local function createConfigWindow()
 	portLabel.TextColor3 = Color3.fromRGB(200, 200, 200)
 	portLabel.BackgroundTransparency = 1
 	portLabel.TextXAlignment = Enum.TextXAlignment.Left
-	portLabel.Size = UDim2.new(0, 100, 0, 25)
-	portLabel.Position = UDim2.new(0, 15, 0, 40)
+	portLabel.Size = UDim2.new(1, 0, 0, 20)
+	portLabel.LayoutOrder = 1
 	portLabel.Parent = mainFrame
 
 	-- Port input
+	local savedPort = game:GetAttribute(PROJECT_CONFIG_KEY) or ""
 	local portInput = Instance.new("TextBox")
 	portInput.Name = "PortInput"
-	portInput.Text = WS_PORT and tostring(WS_PORT) or ""
+	portInput.Text = savedPort
 	portInput.PlaceholderText = "e.g., 3010"
 	portInput.TextSize = 13
 	portInput.TextColor3 = Color3.fromRGB(255, 255, 255)
 	portInput.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
 	portInput.BorderColor3 = Color3.fromRGB(80, 80, 80)
 	portInput.BorderSizePixel = 1
-	portInput.Size = UDim2.new(0, 150, 0, 25)
-	portInput.Position = UDim2.new(0, 15, 0, 65)
+	portInput.Size = UDim2.new(1, 0, 0, 25)
+	portInput.LayoutOrder = 2
 	portInput.Parent = mainFrame
+
+	-- Button container
+	local buttonContainer = Instance.new("Frame")
+	buttonContainer.Name = "ButtonContainer"
+	buttonContainer.BackgroundTransparency = 1
+	buttonContainer.Size = UDim2.new(1, 0, 0, 30)
+	buttonContainer.LayoutOrder = 3
+	buttonContainer.Parent = mainFrame
+
+	local buttonLayout = Instance.new("UIListLayout")
+	buttonLayout.Padding = UDim.new(0, 10)
+	buttonLayout.FillDirection = Enum.FillDirection.Horizontal
+	buttonLayout.SortOrder = Enum.SortOrder.LayoutOrder
+	buttonLayout.Parent = buttonContainer
 
 	-- Save button
 	local saveButton = Instance.new("TextButton")
@@ -416,9 +431,9 @@ local function createConfigWindow()
 	saveButton.TextColor3 = Color3.fromRGB(255, 255, 255)
 	saveButton.BackgroundColor3 = Color3.fromRGB(50, 150, 50)
 	saveButton.BorderSizePixel = 0
-	saveButton.Size = UDim2.new(0, 70, 0, 25)
-	saveButton.Position = UDim2.new(0, 15, 0, 100)
-	saveButton.Parent = mainFrame
+	saveButton.Size = UDim2.new(0.5, -5, 1, 0)
+	saveButton.LayoutOrder = 1
+	saveButton.Parent = buttonContainer
 
 	-- Cancel button
 	local cancelButton = Instance.new("TextButton")
@@ -428,9 +443,9 @@ local function createConfigWindow()
 	cancelButton.TextColor3 = Color3.fromRGB(255, 255, 255)
 	cancelButton.BackgroundColor3 = Color3.fromRGB(150, 50, 50)
 	cancelButton.BorderSizePixel = 0
-	cancelButton.Size = UDim2.new(0, 70, 0, 25)
-	cancelButton.Position = UDim2.new(0, 95, 0, 100)
-	cancelButton.Parent = mainFrame
+	cancelButton.Size = UDim2.new(0.5, -5, 1, 0)
+	cancelButton.LayoutOrder = 2
+	cancelButton.Parent = buttonContainer
 
 	-- Status label
 	local statusLabel = Instance.new("TextLabel")
@@ -439,8 +454,9 @@ local function createConfigWindow()
 	statusLabel.TextSize = 11
 	statusLabel.TextColor3 = WS_URL and Color3.fromRGB(100, 200, 100) or Color3.fromRGB(200, 100, 100)
 	statusLabel.BackgroundTransparency = 1
-	statusLabel.Size = UDim2.new(1, -30, 0, 20)
-	statusLabel.Position = UDim2.new(0, 15, 0, 140)
+	statusLabel.TextXAlignment = Enum.TextXAlignment.Left
+	statusLabel.Size = UDim2.new(1, 0, 0, 20)
+	statusLabel.LayoutOrder = 4
 	statusLabel.Parent = mainFrame
 
 	-- Save functionality
@@ -470,27 +486,30 @@ local function createConfigWindow()
 		statusLabel.Text = "✓ Saved! Port: " .. tostring(WS_PORT)
 		statusLabel.TextColor3 = Color3.fromRGB(100, 200, 100)
 
-		-- Close after a brief delay
 		task.wait(1)
-		window:Destroy()
-		configWindow = nil
+		widget:Close()
+		configWidget = nil
 	end)
 
 	-- Cancel functionality
 	cancelButton.MouseButton1Click:Connect(function()
-		window:Destroy()
-		configWindow = nil
+		widget:Close()
+		configWidget = nil
 	end)
 
-	return window
+	return widget
 end
 
-local function showConfigWindow()
-	if configWindow then
-		configWindow:Destroy()
+local function showConfigWidget()
+	if configWidget then
+		if configWidget.Enabled then
+			configWidget:SetEnabled(false)
+		else
+			configWidget:SetEnabled(true)
+		end
+	else
+		configWidget = createConfigWidget()
 	end
-	configWindow = createConfigWindow()
-	configWindow.Parent = game:GetService("CoreGui")
 end
 
 ----------------------------------------------------------------------
@@ -516,7 +535,7 @@ connectButton.Click:Connect(function()
 end)
 
 configButton.Click:Connect(function()
-	showConfigWindow()
+	showConfigWidget()
 end)
 
 disconnectButton.Click:Connect(function()
