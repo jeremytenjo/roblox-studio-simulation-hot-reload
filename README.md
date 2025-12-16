@@ -51,7 +51,52 @@ Restart Roblox Studio Simuluator starts automatically when the extension is acti
 
 ## Configuration
 
-### Disable Auto Reload
+### Required: Set WebSocket Port
+
+The extension requires an explicit WebSocket port configuration. Each VS Code instance should use a unique port to support multiple simultaneous Roblox Studio instances.
+
+#### In VS Code
+
+Add the WebSocket port to your workspace settings (`.vscode/settings.json`):
+
+```json
+{
+  "restartRobloxStudioSimulator.websocketPort": 3010
+}
+```
+
+For multiple workspaces, use different ports:
+
+- Workspace A: `"restartRobloxStudioSimulator.websocketPort": 3010`
+- Workspace B: `"restartRobloxStudioSimulator.websocketPort": 3011`
+- Workspace C: `"restartRobloxStudioSimulator.websocketPort": 3012`
+
+#### In Roblox Studio
+
+Set the `RESTART_ROBLOX_WS_PORT` environment variable to match the port configured in VS Code:
+
+**macOS/Linux:**
+
+```bash
+export RESTART_ROBLOX_WS_PORT=3010
+/Applications/RobloxStudio.app/Contents/MacOS/RobloxStudio &
+```
+
+**Windows (Command Prompt):**
+
+```cmd
+set RESTART_ROBLOX_WS_PORT=3010
+"C:\Program Files\Roblox\Versions\version-XXXXX\RobloxStudio.exe"
+```
+
+**Windows (PowerShell):**
+
+```powershell
+$env:RESTART_ROBLOX_WS_PORT=3010
+& "C:\Program Files\Roblox\Versions\version-XXXXX\RobloxStudio.exe"
+```
+
+### Optional: Disable Auto Reload
 
 To disable automatic reloading when files are saved, add the following to your VS Code settings (`.vscode/settings.json`):
 
