@@ -18,16 +18,18 @@ local StarterPlayer = game:GetService("StarterPlayer")
 local HttpService = game:GetService("HttpService")
 
 local HARNESS_VERSION = "3"
--- Port MUST be set via RESTART_ROBLOX_SIMULATOR_BRIDGE_PLUGIN_WEBSOCKET_PORT environment variable
--- No default port - plugin will not run without explicit configuration
-local WS_PORT = tonumber(os.getenv("RESTART_ROBLOX_SIMULATOR_BRIDGE_PLUGIN_WEBSOCKET_PORT"))
-if not WS_PORT then
-	warn(
-		"[RestartRobloxStudioSimulatorBridgePlugin] RESTART_ROBLOX_SIMULATOR_BRIDGE_PLUGIN_WEBSOCKET_PORT environment variable not set. Plugin will not connect."
-	)
-	return
+local PLUGIN_CONFIG_KEY = "RestartRobloxStudioSimulatorPluginPort"
+
+-- Load port from persistent plugin storage
+local WS_PORT
+local success, port = pcall(function()
+	return tonumber(plugin:GetSetting(PLUGIN_CONFIG_KEY))
+end)
+if success and port then
+	WS_PORT = port
 end
-local WS_URL = "ws://localhost:" .. tostring(WS_PORT)
+
+local WS_URL = WS_PORT and ("ws://localhost:" .. tostring(WS_PORT)) or nil
 
 ----------------------------------------------------------------------
 -- Harness installer (created during loop; destroyed after loop ends)
@@ -308,6 +310,14 @@ local function connectWS()
 		return true
 	end
 
+	if not WS_PORT then
+		warn(
+			"[RestartRobloxStudioSimulatorBridgePlugin] WebSocket port not configured. Please use the Settings button to configure it."
+		)
+		showNotification("Port not configured. Click Settings to set it.", 3)
+		return false
+	end
+
 	local ok, clientOrErr = pcall(function()
 		return HttpService:CreateWebStreamClient(Enum.WebStreamClientType.WebSocket, { Url = WS_URL })
 	end)
@@ -388,6 +398,150 @@ local function sendRestart(source)
 end
 
 ----------------------------------------------------------------------
+-- Configuration UI
+----------------------------------------------------------------------
+
+local configWindow = nil
+
+local function createConfigWindow()
+	local window = Instance.new("ScreenGui")
+	window.Name = "RestartRobloxStudioSimulatorConfig"
+	window.ResetOnSpawn = false
+	window.DisplayOrder = 999999
+
+	-- Main frame
+	local mainFrame = Instance.new("Frame")
+	mainFrame.Name = "MainFrame"
+	mainFrame.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
+	mainFrame.BorderSizePixel = 1
+	mainFrame.BorderColor3 = Color3.fromRGB(60, 60, 60)
+	mainFrame.Size = UDim2.new(0, 350, 0, 180)
+	mainFrame.Position = UDim2.new(0.5, -175, 0.5, -90)
+	mainFrame.Parent = window
+
+	-- Title
+	local titleLabel = Instance.new("TextLabel")
+	titleLabel.Name = "Title"
+	titleLabel.Text = "WebSocket Configuration"
+	titleLabel.TextSize = 16
+	titleLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+	titleLabel.BackgroundColor3 = Color3.fromRGB(55, 55, 55)
+	titleLabel.BorderSizePixel = 0
+	titleLabel.Size = UDim2.new(1, 0, 0, 30)
+	titleLabel.Parent = mainFrame
+
+	-- Port label
+	local portLabel = Instance.new("TextLabel")
+	portLabel.Name = "PortLabel"
+	portLabel.Text = "WebSocket Port:"
+	portLabel.TextSize = 13
+	portLabel.TextColor3 = Color3.fromRGB(200, 200, 200)
+	portLabel.BackgroundTransparency = 1
+	portLabel.TextXAlignment = Enum.TextXAlignment.Left
+	portLabel.Size = UDim2.new(0, 100, 0, 25)
+	portLabel.Position = UDim2.new(0, 15, 0, 40)
+	portLabel.Parent = mainFrame
+
+	-- Port input
+	local portInput = Instance.new("TextBox")
+	portInput.Name = "PortInput"
+	portInput.Text = WS_PORT and tostring(WS_PORT) or ""
+	portInput.PlaceholderText = "e.g., 3010"
+	portInput.TextSize = 13
+	portInput.TextColor3 = Color3.fromRGB(255, 255, 255)
+	portInput.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+	portInput.BorderColor3 = Color3.fromRGB(80, 80, 80)
+	portInput.BorderSizePixel = 1
+	portInput.Size = UDim2.new(0, 150, 0, 25)
+	portInput.Position = UDim2.new(0, 15, 0, 65)
+	portInput.Parent = mainFrame
+
+	-- Save button
+	local saveButton = Instance.new("TextButton")
+	saveButton.Name = "SaveButton"
+	saveButton.Text = "Save"
+	saveButton.TextSize = 12
+	saveButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+	saveButton.BackgroundColor3 = Color3.fromRGB(50, 150, 50)
+	saveButton.BorderSizePixel = 0
+	saveButton.Size = UDim2.new(0, 70, 0, 25)
+	saveButton.Position = UDim2.new(0, 15, 0, 100)
+	saveButton.Parent = mainFrame
+
+	-- Cancel button
+	local cancelButton = Instance.new("TextButton")
+	cancelButton.Name = "CancelButton"
+	cancelButton.Text = "Cancel"
+	cancelButton.TextSize = 12
+	cancelButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+	cancelButton.BackgroundColor3 = Color3.fromRGB(150, 50, 50)
+	cancelButton.BorderSizePixel = 0
+	cancelButton.Size = UDim2.new(0, 70, 0, 25)
+	cancelButton.Position = UDim2.new(0, 95, 0, 100)
+	cancelButton.Parent = mainFrame
+
+	-- Status label
+	local statusLabel = Instance.new("TextLabel")
+	statusLabel.Name = "StatusLabel"
+	statusLabel.Text = WS_URL and "✓ Connected" or "Port not set"
+	statusLabel.TextSize = 11
+	statusLabel.TextColor3 = WS_URL and Color3.fromRGB(100, 200, 100) or Color3.fromRGB(200, 100, 100)
+	statusLabel.BackgroundTransparency = 1
+	statusLabel.Size = UDim2.new(1, -30, 0, 20)
+	statusLabel.Position = UDim2.new(0, 15, 0, 140)
+	statusLabel.Parent = mainFrame
+
+	-- Save functionality
+	saveButton.MouseButton1Click:Connect(function()
+		local input = portInput.Text:match("^%d+$")
+		if not input then
+			statusLabel.Text = "Invalid port (must be a number)"
+			statusLabel.TextColor3 = Color3.fromRGB(200, 100, 100)
+			return
+		end
+
+		local port = tonumber(input)
+		if port < 1024 or port > 65535 then
+			statusLabel.Text = "Port must be between 1024-65535"
+			statusLabel.TextColor3 = Color3.fromRGB(200, 100, 100)
+			return
+		end
+
+		-- Save to plugin settings
+		pcall(function()
+			plugin:SetSetting(PLUGIN_CONFIG_KEY, tostring(port))
+		end)
+
+		WS_PORT = port
+		WS_URL = "ws://localhost:" .. tostring(WS_PORT)
+
+		statusLabel.Text = "✓ Saved! Port: " .. tostring(WS_PORT)
+		statusLabel.TextColor3 = Color3.fromRGB(100, 200, 100)
+
+		-- Close after a brief delay
+		task.wait(1)
+		window:Destroy()
+		configWindow = nil
+	end)
+
+	-- Cancel functionality
+	cancelButton.MouseButton1Click:Connect(function()
+		window:Destroy()
+		configWindow = nil
+	end)
+
+	return window
+end
+
+local function showConfigWindow()
+	if configWindow then
+		configWindow:Destroy()
+	end
+	configWindow = createConfigWindow()
+	configWindow.Parent = game:GetService("CoreGui")
+end
+
+----------------------------------------------------------------------
 -- Plugin UI: ONLY connect/disconnect buttons + PluginAction for keybind
 ----------------------------------------------------------------------
 
@@ -395,15 +549,33 @@ local toolbar = plugin:CreateToolbar("Restart Roblox Studio Simulator Bridge")
 
 local connectButton = toolbar:CreateButton("Connect", "Connect to VS Code extension", "rbxassetid://126561959012757")
 
+local configButton = toolbar:CreateButton("Settings", "Configure WebSocket port", "rbxassetid://125030218101854")
+
 local disconnectButton =
 	toolbar:CreateButton("Disconnect", "Disconnect from VS Code extension", "rbxassetid://123998024261090")
 
 connectButton.Click:Connect(function()
+	if not WS_PORT then
+		showNotification("Port not configured. Click Settings to set it.", 3)
+		return
+	end
 	showNotification("Restart Roblox Studio Simulator: Active", 2)
 	connectWS()
 end)
 
+configButton.Click:Connect(function()
+	showConfigWindow()
+end)
+
 disconnectButton.Click:Connect(function()
+	if not wsClient then
+		if not WS_PORT then
+			showNotification("Port not configured. Click Settings to set it.", 3)
+		else
+			showNotification("Not connected", 2)
+		end
+		return
+	end
 	showNotification("Restart Roblox Studio Simulator: Stopped", 2)
 	disconnectWS()
 end)

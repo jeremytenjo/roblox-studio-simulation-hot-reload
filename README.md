@@ -71,30 +71,12 @@ For multiple workspaces, use different ports:
 - Workspace B: `"restartRobloxStudioSimulator.websocketPort": 3011`
 - Workspace C: `"restartRobloxStudioSimulator.websocketPort": 3012`
 
-#### In Roblox Studio
+#### In Roblox Studio Plugin
 
-Set the `RESTART_ROBLOX_WS_PORT` environment variable to match the port configured in VS Code:
-
-**macOS/Linux:**
-
-```bash
-export RESTART_ROBLOX_WS_PORT=3010
-/Applications/RobloxStudio.app/Contents/MacOS/RobloxStudio &
-```
-
-**Windows (Command Prompt):**
-
-```cmd
-set RESTART_ROBLOX_WS_PORT=3010
-"C:\Program Files\Roblox\Versions\version-XXXXX\RobloxStudio.exe"
-```
-
-**Windows (PowerShell):**
-
-```powershell
-$env:RESTART_ROBLOX_WS_PORT=3010
-& "C:\Program Files\Roblox\Versions\version-XXXXX\RobloxStudio.exe"
-```
+1. Click the **Settings** button in the Roblox Studio toolbar (Restart Roblox Studio Simulator Bridge section)
+2. Enter the WebSocket port number (must match the port configured in VS Code)
+3. Click **Save** - the port is now persistent and will be remembered across sessions
+4. Click **Connect** to establish the connection
 
 ### Optional: Disable Auto Reload
 
