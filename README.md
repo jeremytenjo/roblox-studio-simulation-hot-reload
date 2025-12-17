@@ -8,8 +8,8 @@ A VS Code extension that enables hot-reload functionality for Roblox game develo
 
 - **Auto Reload on Save**: Automatically triggers simulation restart when you save TypeScript, JavaScript, or Lua files
 - **Manual Trigger**: Press `F2` to trigger a "run or restart" command for your Roblox simulation
-- **File Type Filtering**: Intelligently filters supported file types (`.ts`, `.tsx`, `.js`, `.jsx`, `.lua`, `.luau`)
-- **Restart Roblox Studio Simuluator Management**: Start and stop the WebSocket server on demand via VS Code commands
+-**File Type Filtering**: Intelligently filters supported file types (`.ts`, `.tsx`, `.js`, `.jsx`, `.lua`, `.luau`)
+- **Restart Roblox Studio Simulator Management**: Start and stop the WebSocket server on demand via VS Code commands
 
 ## Installation
 
@@ -39,21 +39,21 @@ The plugin adds toolbar buttons to connect/disconnect from the VS Code extension
 
 - Simply save a supported file (TypeScript, JavaScript, or Lua) to automatically trigger a restart
 
-### Restart Roblox Studio Simuluator Management
+### Restart Roblox Studio Simulator Management
 
 You can manage the WebSocket server using VS Code commands (accessible via `Cmd+Shift+P` / `Ctrl+Shift+P`):
 
-- **Restart Roblox Studio Simuluator: Start** - Start Restart Roblox Studio Simuluator
-- **Restart Roblox Studio Simuluator: Stop** - Stop Restart Roblox Studio Simuluator
-- A status bar indicator shows the current Restart Roblox Studio Simuluator state (Running/Stopped)
+- **Restart Roblox Studio Simulator: Start** - Start Restart Roblox Studio Simulator
+- **Restart Roblox Studio Simulator: Stop** - Stop Restart Roblox Studio Simulator
+- A status bar indicator shows the current Restart Roblox Studio Simulator state (Running/Stopped)
 
-Restart Roblox Studio Simuluator starts automatically when the extension is activated.
+Restart Roblox Studio Simulator starts automatically when the extension is activated.
 
 ## Configuration
 
 ### Required: Set WebSocket Port
 
-The extension requires an explicit port configuration. Each VS Code instance should use a unique port to support multiple simultaneous Roblox Studio instances.
+The extension requires an explicit port configuration. Each VS Code instance should use a unique port to support multiple simultaneous Roblox Studio instances. Make sure to assign and use different WebSocket ports for each Roblox project to avoid connection conflicts and ensure proper functionality.
 
 #### In VS Code
 
@@ -67,9 +67,9 @@ Add the WebSocket port to your workspace settings (Keep USER settings at 0) (`.v
 
 For multiple workspaces, use different ports:
 
-- Workspace A: `"restartRobloxStudioSimulator.websocketPort": 3010`
-- Workspace B: `"restartRobloxStudioSimulator.websocketPort": 3011`
-- Workspace C: `"restartRobloxStudioSimulator.websocketPort": 3012`
+- Workspace A: "restartRobloxStudioSimulator.websocketPort": 3010
+- Workspace B: "restartRobloxStudioSimulator.websocketPort": 3011
+- Workspace C: "restartRobloxStudioSimulator.websocketPort": 3012
 
 #### In Roblox Studio Plugin
 
